@@ -1,4 +1,6 @@
+import 'package:firebase_flutter_cifo/core/locator/locator.dart';
 import 'package:firebase_flutter_cifo/core/router/app_router.dart';
+import 'package:firebase_flutter_cifo/start/cubits/start_app/start_app_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -29,7 +31,11 @@ class LoginEmailFormWidget extends StatelessWidget {
           SizedBox(height: 50),
           GestureDetector(
             onTap: () {
-              context.goNamed(AppRoutes.home.name);
+              // context.goNamed(AppRoutes.home.name);
+              locator<StartAppCubit>().signInWithEmailAndPassword(
+                email: emailController.text,
+                password: passwordController.text,
+              );
             },
             child: Container(
               decoration: BoxDecoration(

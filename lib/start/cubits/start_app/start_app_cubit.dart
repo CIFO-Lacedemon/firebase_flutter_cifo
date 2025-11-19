@@ -8,7 +8,15 @@ class StartAppCubit extends Cubit<StartAppState> {
   StartAppCubit() : super(StartAppState());
 
   Future<void> init() async {
-    emit(state.copyWith(isLoged: false));
+    final authDto = await AuthFirebaseRepository.currentUser();
+
+    if (authDto?.idUser != null) {
+      print("Este usuario está logueado");
+      emit(state.copyWith(isLoged: true));
+    } else {
+      print("Este usuario no está logueado");
+      emit(state.copyWith(isLoged: false));
+    }
   }
 
   Future<void> loginSesion() async {
@@ -16,6 +24,7 @@ class StartAppCubit extends Cubit<StartAppState> {
   }
 
   Future<void> logOutSesion() async {
+    await AuthFirebaseRepository.logOut();
     emit(state.copyWith(isLoged: false));
   }
 
@@ -24,6 +33,34 @@ class StartAppCubit extends Cubit<StartAppState> {
         await AuthFirebaseRepository.signInAnonymously();
 
     if (myUserCredential?.isAnonymous == true) {
+      emit(state.copyWith(isLoged: true));
+    }
+  }
+
+  Future<void> signInWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    AuthDto? myUserCredential =
+        await AuthFirebaseRepository.singInWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+    if (myUserCredential?.idUser != null) {
+      emit(state.copyWith(isLoged: true));
+    }
+  }
+
+  Future<void> signUpWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    AuthDto? myUserCredential =
+        await AuthFirebaseRepository.singUpWithEmailAndPassword(
+          email: email,
+          password: password,
+        );
+    if (myUserCredential?.idUser != null) {
       emit(state.copyWith(isLoged: true));
     }
   }

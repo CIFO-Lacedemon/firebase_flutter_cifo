@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_flutter_cifo/auth/data/models/auth_dto.dart';
 
 class AuthFirebaseRepository {
@@ -15,16 +16,53 @@ class AuthFirebaseRepository {
     }
   }
 
-  static Future<AuthDto?> logOut() async {
-    UserCredential? userCredential;
+  static Future<void> logOut() async {
+    await FirebaseAuth.instance.signOut();
+  }
+
+  static Future<AuthDto?> singInWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
     try {
-      userCredential = await FirebaseAuth.instance.signInAnonymously();
+      final firebaseUser = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
 
-      AuthDto myAuth = AuthDto.fromFirebaseUser(userCredential);
-
-      return myAuth;
+      return AuthDto.fromFirebaseUser(firebaseUser);
+    } on FirebaseAuthException catch (e) {
+      print(e.code);
+      return null;
     } catch (e) {
       return null;
+    }
+  }
+
+  static Future<AuthDto?> singUpWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final firebaseUser = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      return AuthDto.fromFirebaseUser(firebaseUser);
+    } on FirebaseAuthException catch (e) {
+      print(e.code);
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<AuthDto?> currentUser() async {
+    final user = FirebaseAuth.instance.currentUser;
+
+    print(user?.uid);
+
+    if (user == null) {
+      return null;
+    } else {
+      return AuthDto(idUser: user.uid, isAnonymous: user.isAnonymous);
     }
   }
 }
