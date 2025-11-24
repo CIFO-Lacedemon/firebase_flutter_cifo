@@ -34,4 +34,15 @@ class TodoFirestoreRepository {
         )
         .get();
   }
+
+  Future<void> removeTodo({required TodoDto data}) async {
+    await FirebaseFirestore.instance.collection("todos").doc(data.id).delete();
+  }
+
+  static Future<void> editTodo({required TodoDto data}) async {
+    await FirebaseFirestore.instance
+        .collection("todos")
+        .doc(data.id)
+        .set(data.toJson(), SetOptions(merge: true));
+  }
 }

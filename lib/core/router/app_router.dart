@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_flutter_cifo/core/locator/locator.dart';
+import 'package:firebase_flutter_cifo/country/ui/pages/country_page.dart';
 import 'package:firebase_flutter_cifo/start/cubits/start_app/start_app_cubit.dart';
 import 'package:firebase_flutter_cifo/home/pages/home_page.dart';
 import 'package:firebase_flutter_cifo/start/pages/intial_page.dart';
@@ -62,7 +63,7 @@ final goRouter = GoRouter(
       path: '/home',
       name: AppRoutes.home.name,
       builder: (context, state) {
-        return TodosPage();
+        return CountryPage();
       },
     ),
   ],

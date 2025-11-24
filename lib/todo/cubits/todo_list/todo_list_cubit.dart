@@ -27,10 +27,18 @@ class TodoListCubit extends Cubit<TodoListState> {
   void editTodo({required String id, required String todoDesc}) {
     final newTodos = state.todos.map((element) {
       if (element.id == id) {
-        return TodoDto(desc: todoDesc, id: id, completed: element.completed);
+        TodoDto myDto = TodoDto(
+          desc: todoDesc,
+          id: id,
+          completed: element.completed,
+          idUser: element.idUser,
+        );
+        TodoFirestoreRepository.editTodo(data: myDto);
+        return myDto;
       }
       return element;
     }).toList();
+
     emit(state.copyWith(todos: newTodos));
     setFilteredTodos(state.selectedFilter);
   }
@@ -127,7 +135,7 @@ class TodoListCubit extends Cubit<TodoListState> {
 
     List<TodoDto> newTodos = state.todos;
     newTodos.remove(todo);
-
+    TodoFirestoreRepository().removeTodo(data: todo);
     emit(state.copyWith(todos: newTodos));
     setFilteredTodos(state.selectedFilter);
   }
