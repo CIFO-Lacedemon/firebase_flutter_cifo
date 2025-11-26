@@ -7,12 +7,14 @@ part 'auth_dto.g.dart';
 class AuthDto {
   final String idUser;
   final String eamil;
+  final String? name;
   final bool? isAnonymous;
 
   AuthDto({
     required this.idUser,
     required this.isAnonymous,
     required this.eamil,
+    required this.name,
   });
 
   /// Connect the generated [_$PersonFromJson] function to the `fromJson`
@@ -31,6 +33,7 @@ class AuthDto {
       idUser: idUser,
       isAnonymous: isAnonymous,
       eamil: firebaseUser.user?.email ?? '',
+      name: firebaseUser.user?.displayName ?? '',
     );
   }
 }

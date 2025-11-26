@@ -18,7 +18,11 @@ final useBloc = locator<StartAppCubit>();
 
 final List<String> routesWithoutAuth = ['/', '/login', '/register'];
 
-final List<String> routesWithAuth = ['/home/profile', '/home/country'];
+final List<String> routesWithAuth = [
+  '/home/profile',
+  '/home/country',
+  '/home/todos',
+];
 
 final goRouter = GoRouter(
   refreshListenable: GoRouterRefreshStream(useBloc.stream),
@@ -80,6 +84,13 @@ final goRouter = GoRouter(
           name: AppRoutes.country.name,
           builder: (context, state) {
             return CountryPage();
+          },
+        ),
+        GoRoute(
+          path: 'todos',
+          name: AppRoutes.todos.name,
+          builder: (context, state) {
+            return TodosPage();
           },
         ),
       ],

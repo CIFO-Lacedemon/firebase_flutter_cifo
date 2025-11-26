@@ -19,4 +19,11 @@ class ValidatorsForm {
   static bool _hasMatch(String? value, String pattern) {
     return (value == null) ? false : RegExp(pattern).hasMatch(value);
   }
+
+  String? isValidName(String? text) {
+    if (text == null || text.length < 4) {
+      return "Este nombre es muy corto";
+    }
+    return null;
+  }
 }

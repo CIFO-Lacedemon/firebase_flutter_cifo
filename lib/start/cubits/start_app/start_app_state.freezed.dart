@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$StartAppState {
 
- bool? get isLoged; bool get isObscureTextPassLogin; bool get isObscureTextPassRegister; bool get isObscureTextRepeatPassRegister;
+ bool? get isLoged; bool get isObscureTextPassLogin; bool get isObscureTextPassRegister; bool get isObscureTextRepeatPassRegister; AuthDto? get myCurrentUser;
 /// Create a copy of StartAppState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +25,16 @@ $StartAppStateCopyWith<StartAppState> get copyWith => _$StartAppStateCopyWithImp
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is StartAppState&&(identical(other.isLoged, isLoged) || other.isLoged == isLoged)&&(identical(other.isObscureTextPassLogin, isObscureTextPassLogin) || other.isObscureTextPassLogin == isObscureTextPassLogin)&&(identical(other.isObscureTextPassRegister, isObscureTextPassRegister) || other.isObscureTextPassRegister == isObscureTextPassRegister)&&(identical(other.isObscureTextRepeatPassRegister, isObscureTextRepeatPassRegister) || other.isObscureTextRepeatPassRegister == isObscureTextRepeatPassRegister));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is StartAppState&&(identical(other.isLoged, isLoged) || other.isLoged == isLoged)&&(identical(other.isObscureTextPassLogin, isObscureTextPassLogin) || other.isObscureTextPassLogin == isObscureTextPassLogin)&&(identical(other.isObscureTextPassRegister, isObscureTextPassRegister) || other.isObscureTextPassRegister == isObscureTextPassRegister)&&(identical(other.isObscureTextRepeatPassRegister, isObscureTextRepeatPassRegister) || other.isObscureTextRepeatPassRegister == isObscureTextRepeatPassRegister)&&(identical(other.myCurrentUser, myCurrentUser) || other.myCurrentUser == myCurrentUser));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoged,isObscureTextPassLogin,isObscureTextPassRegister,isObscureTextRepeatPassRegister);
+int get hashCode => Object.hash(runtimeType,isLoged,isObscureTextPassLogin,isObscureTextPassRegister,isObscureTextRepeatPassRegister,myCurrentUser);
 
 @override
 String toString() {
-  return 'StartAppState(isLoged: $isLoged, isObscureTextPassLogin: $isObscureTextPassLogin, isObscureTextPassRegister: $isObscureTextPassRegister, isObscureTextRepeatPassRegister: $isObscureTextRepeatPassRegister)';
+  return 'StartAppState(isLoged: $isLoged, isObscureTextPassLogin: $isObscureTextPassLogin, isObscureTextPassRegister: $isObscureTextPassRegister, isObscureTextRepeatPassRegister: $isObscureTextRepeatPassRegister, myCurrentUser: $myCurrentUser)';
 }
 
 
@@ -45,7 +45,7 @@ abstract mixin class $StartAppStateCopyWith<$Res>  {
   factory $StartAppStateCopyWith(StartAppState value, $Res Function(StartAppState) _then) = _$StartAppStateCopyWithImpl;
 @useResult
 $Res call({
- bool? isLoged, bool isObscureTextPassLogin, bool isObscureTextPassRegister, bool isObscureTextRepeatPassRegister
+ bool? isLoged, bool isObscureTextPassLogin, bool isObscureTextPassRegister, bool isObscureTextRepeatPassRegister, AuthDto? myCurrentUser
 });
 
 
@@ -62,13 +62,14 @@ class _$StartAppStateCopyWithImpl<$Res>
 
 /// Create a copy of StartAppState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isLoged = freezed,Object? isObscureTextPassLogin = null,Object? isObscureTextPassRegister = null,Object? isObscureTextRepeatPassRegister = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? isLoged = freezed,Object? isObscureTextPassLogin = null,Object? isObscureTextPassRegister = null,Object? isObscureTextRepeatPassRegister = null,Object? myCurrentUser = freezed,}) {
   return _then(_self.copyWith(
 isLoged: freezed == isLoged ? _self.isLoged : isLoged // ignore: cast_nullable_to_non_nullable
 as bool?,isObscureTextPassLogin: null == isObscureTextPassLogin ? _self.isObscureTextPassLogin : isObscureTextPassLogin // ignore: cast_nullable_to_non_nullable
 as bool,isObscureTextPassRegister: null == isObscureTextPassRegister ? _self.isObscureTextPassRegister : isObscureTextPassRegister // ignore: cast_nullable_to_non_nullable
 as bool,isObscureTextRepeatPassRegister: null == isObscureTextRepeatPassRegister ? _self.isObscureTextRepeatPassRegister : isObscureTextRepeatPassRegister // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,myCurrentUser: freezed == myCurrentUser ? _self.myCurrentUser : myCurrentUser // ignore: cast_nullable_to_non_nullable
+as AuthDto?,
   ));
 }
 
@@ -153,10 +154,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool? isLoged,  bool isObscureTextPassLogin,  bool isObscureTextPassRegister,  bool isObscureTextRepeatPassRegister)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool? isLoged,  bool isObscureTextPassLogin,  bool isObscureTextPassRegister,  bool isObscureTextRepeatPassRegister,  AuthDto? myCurrentUser)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _StartAppState() when $default != null:
-return $default(_that.isLoged,_that.isObscureTextPassLogin,_that.isObscureTextPassRegister,_that.isObscureTextRepeatPassRegister);case _:
+return $default(_that.isLoged,_that.isObscureTextPassLogin,_that.isObscureTextPassRegister,_that.isObscureTextRepeatPassRegister,_that.myCurrentUser);case _:
   return orElse();
 
 }
@@ -174,10 +175,10 @@ return $default(_that.isLoged,_that.isObscureTextPassLogin,_that.isObscureTextPa
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool? isLoged,  bool isObscureTextPassLogin,  bool isObscureTextPassRegister,  bool isObscureTextRepeatPassRegister)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool? isLoged,  bool isObscureTextPassLogin,  bool isObscureTextPassRegister,  bool isObscureTextRepeatPassRegister,  AuthDto? myCurrentUser)  $default,) {final _that = this;
 switch (_that) {
 case _StartAppState():
-return $default(_that.isLoged,_that.isObscureTextPassLogin,_that.isObscureTextPassRegister,_that.isObscureTextRepeatPassRegister);case _:
+return $default(_that.isLoged,_that.isObscureTextPassLogin,_that.isObscureTextPassRegister,_that.isObscureTextRepeatPassRegister,_that.myCurrentUser);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -194,10 +195,10 @@ return $default(_that.isLoged,_that.isObscureTextPassLogin,_that.isObscureTextPa
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool? isLoged,  bool isObscureTextPassLogin,  bool isObscureTextPassRegister,  bool isObscureTextRepeatPassRegister)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool? isLoged,  bool isObscureTextPassLogin,  bool isObscureTextPassRegister,  bool isObscureTextRepeatPassRegister,  AuthDto? myCurrentUser)?  $default,) {final _that = this;
 switch (_that) {
 case _StartAppState() when $default != null:
-return $default(_that.isLoged,_that.isObscureTextPassLogin,_that.isObscureTextPassRegister,_that.isObscureTextRepeatPassRegister);case _:
+return $default(_that.isLoged,_that.isObscureTextPassLogin,_that.isObscureTextPassRegister,_that.isObscureTextRepeatPassRegister,_that.myCurrentUser);case _:
   return null;
 
 }
@@ -209,13 +210,14 @@ return $default(_that.isLoged,_that.isObscureTextPassLogin,_that.isObscureTextPa
 
 
 class _StartAppState implements StartAppState {
-  const _StartAppState({this.isLoged = null, this.isObscureTextPassLogin = false, this.isObscureTextPassRegister = false, this.isObscureTextRepeatPassRegister = false});
+  const _StartAppState({this.isLoged = null, this.isObscureTextPassLogin = false, this.isObscureTextPassRegister = false, this.isObscureTextRepeatPassRegister = false, this.myCurrentUser = null});
   
 
 @override@JsonKey() final  bool? isLoged;
 @override@JsonKey() final  bool isObscureTextPassLogin;
 @override@JsonKey() final  bool isObscureTextPassRegister;
 @override@JsonKey() final  bool isObscureTextRepeatPassRegister;
+@override@JsonKey() final  AuthDto? myCurrentUser;
 
 /// Create a copy of StartAppState
 /// with the given fields replaced by the non-null parameter values.
@@ -227,16 +229,16 @@ _$StartAppStateCopyWith<_StartAppState> get copyWith => __$StartAppStateCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StartAppState&&(identical(other.isLoged, isLoged) || other.isLoged == isLoged)&&(identical(other.isObscureTextPassLogin, isObscureTextPassLogin) || other.isObscureTextPassLogin == isObscureTextPassLogin)&&(identical(other.isObscureTextPassRegister, isObscureTextPassRegister) || other.isObscureTextPassRegister == isObscureTextPassRegister)&&(identical(other.isObscureTextRepeatPassRegister, isObscureTextRepeatPassRegister) || other.isObscureTextRepeatPassRegister == isObscureTextRepeatPassRegister));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _StartAppState&&(identical(other.isLoged, isLoged) || other.isLoged == isLoged)&&(identical(other.isObscureTextPassLogin, isObscureTextPassLogin) || other.isObscureTextPassLogin == isObscureTextPassLogin)&&(identical(other.isObscureTextPassRegister, isObscureTextPassRegister) || other.isObscureTextPassRegister == isObscureTextPassRegister)&&(identical(other.isObscureTextRepeatPassRegister, isObscureTextRepeatPassRegister) || other.isObscureTextRepeatPassRegister == isObscureTextRepeatPassRegister)&&(identical(other.myCurrentUser, myCurrentUser) || other.myCurrentUser == myCurrentUser));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoged,isObscureTextPassLogin,isObscureTextPassRegister,isObscureTextRepeatPassRegister);
+int get hashCode => Object.hash(runtimeType,isLoged,isObscureTextPassLogin,isObscureTextPassRegister,isObscureTextRepeatPassRegister,myCurrentUser);
 
 @override
 String toString() {
-  return 'StartAppState(isLoged: $isLoged, isObscureTextPassLogin: $isObscureTextPassLogin, isObscureTextPassRegister: $isObscureTextPassRegister, isObscureTextRepeatPassRegister: $isObscureTextRepeatPassRegister)';
+  return 'StartAppState(isLoged: $isLoged, isObscureTextPassLogin: $isObscureTextPassLogin, isObscureTextPassRegister: $isObscureTextPassRegister, isObscureTextRepeatPassRegister: $isObscureTextRepeatPassRegister, myCurrentUser: $myCurrentUser)';
 }
 
 
@@ -247,7 +249,7 @@ abstract mixin class _$StartAppStateCopyWith<$Res> implements $StartAppStateCopy
   factory _$StartAppStateCopyWith(_StartAppState value, $Res Function(_StartAppState) _then) = __$StartAppStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool? isLoged, bool isObscureTextPassLogin, bool isObscureTextPassRegister, bool isObscureTextRepeatPassRegister
+ bool? isLoged, bool isObscureTextPassLogin, bool isObscureTextPassRegister, bool isObscureTextRepeatPassRegister, AuthDto? myCurrentUser
 });
 
 
@@ -264,13 +266,14 @@ class __$StartAppStateCopyWithImpl<$Res>
 
 /// Create a copy of StartAppState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isLoged = freezed,Object? isObscureTextPassLogin = null,Object? isObscureTextPassRegister = null,Object? isObscureTextRepeatPassRegister = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isLoged = freezed,Object? isObscureTextPassLogin = null,Object? isObscureTextPassRegister = null,Object? isObscureTextRepeatPassRegister = null,Object? myCurrentUser = freezed,}) {
   return _then(_StartAppState(
 isLoged: freezed == isLoged ? _self.isLoged : isLoged // ignore: cast_nullable_to_non_nullable
 as bool?,isObscureTextPassLogin: null == isObscureTextPassLogin ? _self.isObscureTextPassLogin : isObscureTextPassLogin // ignore: cast_nullable_to_non_nullable
 as bool,isObscureTextPassRegister: null == isObscureTextPassRegister ? _self.isObscureTextPassRegister : isObscureTextPassRegister // ignore: cast_nullable_to_non_nullable
 as bool,isObscureTextRepeatPassRegister: null == isObscureTextRepeatPassRegister ? _self.isObscureTextRepeatPassRegister : isObscureTextRepeatPassRegister // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,myCurrentUser: freezed == myCurrentUser ? _self.myCurrentUser : myCurrentUser // ignore: cast_nullable_to_non_nullable
+as AuthDto?,
   ));
 }
 

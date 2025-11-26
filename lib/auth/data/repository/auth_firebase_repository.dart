@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_flutter_cifo/auth/data/models/auth_dto.dart';
+import 'package:firebase_flutter_cifo/auth/data/repository/user_firestore_repository.dart';
 
 class AuthFirebaseRepository {
   static Future<AuthDto?> signInAnonymously() async {
@@ -55,17 +56,19 @@ class AuthFirebaseRepository {
   }
 
   static Future<AuthDto?> currentUser() async {
-    final user = FirebaseAuth.instance.currentUser;
+    // final user = FirebaseAuth.instance.currentUser;
+    final user = await UserFirestoreRepository().getUserById();
 
-    print(user?.uid);
+    print(user?.idUser);
 
     if (user == null) {
       return null;
     } else {
       return AuthDto(
-        idUser: user.uid,
+        idUser: user.idUser,
         isAnonymous: user.isAnonymous,
-        eamil: user.email ?? '',
+        eamil: user.eamil,
+        name: user.name,
       );
     }
   }

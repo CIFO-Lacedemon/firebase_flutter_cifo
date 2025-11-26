@@ -9,6 +9,7 @@ import 'package:firebase_flutter_cifo/todo/ui/widgets/search_filter_todo_widget.
 import 'package:firebase_flutter_cifo/todo/ui/widgets/todo_header_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class TodosPage extends StatelessWidget {
   const TodosPage({super.key});
@@ -16,6 +17,16 @@ class TodosPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            context.pop();
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
+        title: Text("App de TODOS"),
+        centerTitle: true,
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           locator<StartAppCubit>().logOutSesion();
@@ -26,7 +37,6 @@ class TodosPage extends StatelessWidget {
         builder: (context, state) {
           return Column(
             children: [
-              SizedBox(height: 70),
               TodoHeaderWidget(count: state.activeTodoCount),
               SizedBox(height: 20),
               SearchFilterTodoWidget(),

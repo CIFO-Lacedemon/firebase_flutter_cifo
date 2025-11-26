@@ -15,7 +15,9 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                context.goNamed(AppRoutes.todos.name);
+              },
               child: Text("Ir al Módulo de Todos"),
             ),
             SizedBox(height: 20),

@@ -13,7 +13,9 @@ class StartAppCubit extends Cubit<StartAppState> {
 
     if (authDto?.idUser != null) {
       print("Este usuario está logueado");
+
       emit(state.copyWith(isLoged: true));
+      await getUserById();
     } else {
       print("Este usuario no está logueado");
       emit(state.copyWith(isLoged: false));
@@ -50,6 +52,7 @@ class StartAppCubit extends Cubit<StartAppState> {
     if (myUserCredential?.idUser != null) {
       emit(state.copyWith(isLoged: true));
     }
+    await getUserById();
   }
 
   Future<void> signUpWithEmailAndPassword({
@@ -65,11 +68,13 @@ class StartAppCubit extends Cubit<StartAppState> {
       await UserFirestoreRepository.addNewUser(data: myUserCredential!);
       emit(state.copyWith(isLoged: true));
     }
+    await getUserById();
   }
 
   Future<void> getUserById() async {
     AuthDto? myUser = await UserFirestoreRepository().getUserById();
     print(myUser!.eamil);
+    emit(state.copyWith(myCurrentUser: myUser));
   }
 
   void toggleShowLoginPass(bool? isValue) {
@@ -89,5 +94,17 @@ class StartAppCubit extends Cubit<StartAppState> {
   void toggleShowRegisterRepeatPass() {
     bool showPass = !state.isObscureTextRepeatPassRegister;
     emit(state.copyWith(isObscureTextRepeatPassRegister: showPass));
+  }
+
+  Future<void> editUser({required String? name}) async {
+    final myCurrentUser = AuthDto(
+      idUser: state.myCurrentUser!.idUser,
+      isAnonymous: state.myCurrentUser!.isAnonymous,
+      eamil: state.myCurrentUser!.eamil,
+      name: (name == null) ? state.myCurrentUser!.name : name,
+    );
+    await UserFirestoreRepository.updateNewUser(data: myCurrentUser);
+
+    emit(state.copyWith(myCurrentUser: myCurrentUser));
   }
 }
