@@ -69,6 +69,7 @@ class AuthFirebaseRepository {
         isAnonymous: user.isAnonymous,
         eamil: user.eamil,
         name: user.name,
+        secondName: user.secondName,
       );
     }
   }

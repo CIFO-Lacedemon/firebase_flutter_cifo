@@ -16,6 +16,9 @@ class ProfilePage extends StatelessWidget {
     TextEditingController nameController = TextEditingController(
       text: locator<StartAppCubit>().state.myCurrentUser?.name ?? '',
     );
+    TextEditingController secondNameController = TextEditingController(
+      text: locator<StartAppCubit>().state.myCurrentUser?.secondName ?? '',
+    );
     ValidatorsForm validatorsForm = ValidatorsForm();
     return BlocBuilder<StartAppCubit, StartAppState>(
       bloc: locator<StartAppCubit>(),
@@ -46,6 +49,21 @@ class ProfilePage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 20),
+
+                  Text("Apellido del Usuario"),
+                  TextFormField(
+                    readOnly: (state.myCurrentUser?.secondName == null)
+                        ? false
+                        : true,
+                    validator: validatorsForm.isValidName,
+                    controller: secondNameController,
+                    decoration: InputDecoration(
+                      hintText:
+                          state.myCurrentUser?.secondName ??
+                          'Introduce tu apellido',
+                    ),
+                  ),
+                  SizedBox(height: 20),
                   Text("Email del Usuario"),
                   TextFormField(
                     readOnly: (state.myCurrentUser?.eamil == null)
@@ -57,12 +75,14 @@ class ProfilePage extends StatelessWidget {
                           state.myCurrentUser?.eamil ?? 'Introduce un email',
                     ),
                   ),
+
                   SizedBox(height: 30),
                   ElevatedButton(
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         locator<StartAppCubit>().editUser(
                           name: nameController.text,
+                          secondName: secondNameController.text,
                         );
                         context.pop();
                       }

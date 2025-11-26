@@ -8,12 +8,15 @@ class AuthDto {
   final String idUser;
   final String eamil;
   final String? name;
+  final String? secondName;
   final bool? isAnonymous;
 
   AuthDto({
     required this.idUser,
+
     required this.isAnonymous,
     required this.eamil,
+    required this.secondName,
     required this.name,
   });
 
@@ -34,6 +37,7 @@ class AuthDto {
       isAnonymous: isAnonymous,
       eamil: firebaseUser.user?.email ?? '',
       name: firebaseUser.user?.displayName ?? '',
+      secondName: null,
     );
   }
 }

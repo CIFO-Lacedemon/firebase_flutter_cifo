@@ -96,12 +96,18 @@ class StartAppCubit extends Cubit<StartAppState> {
     emit(state.copyWith(isObscureTextRepeatPassRegister: showPass));
   }
 
-  Future<void> editUser({required String? name}) async {
+  Future<void> editUser({
+    required String? name,
+    required String? secondName,
+  }) async {
     final myCurrentUser = AuthDto(
       idUser: state.myCurrentUser!.idUser,
       isAnonymous: state.myCurrentUser!.isAnonymous,
       eamil: state.myCurrentUser!.eamil,
       name: (name == null) ? state.myCurrentUser!.name : name,
+      secondName: (secondName == null)
+          ? state.myCurrentUser!.secondName
+          : secondName,
     );
     await UserFirestoreRepository.updateNewUser(data: myCurrentUser);
 
