@@ -12,6 +12,8 @@ AuthDto _$AuthDtoFromJson(Map<String, dynamic> json) => AuthDto(
   eamil: json['eamil'] as String,
   secondName: json['secondName'] as String?,
   name: json['name'] as String?,
+  photoUrl: json['photoUrl'] as String?,
+  localPhotoPath: json['localPhotoPath'] as String?,
 );
 
 Map<String, dynamic> _$AuthDtoToJson(AuthDto instance) => <String, dynamic>{
@@ -20,4 +22,6 @@ Map<String, dynamic> _$AuthDtoToJson(AuthDto instance) => <String, dynamic>{
   'name': instance.name,
   'secondName': instance.secondName,
   'isAnonymous': instance.isAnonymous,
+  'photoUrl': instance.photoUrl,
+  'localPhotoPath': instance.localPhotoPath,
 };

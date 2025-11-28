@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_flutter_cifo/auth/data/models/auth_dto.dart';
+import 'package:firebase_flutter_cifo/core/locator/locator.dart';
+import 'package:firebase_flutter_cifo/start/cubits/start_app/start_app_cubit.dart';
 
 class UserFirestoreRepository {
   static Future<void> addNewUser({required AuthDto data}) async {
@@ -41,5 +43,12 @@ class UserFirestoreRepository {
           toFirestore: (authModel, _) => authModel.toJson(),
         )
         .get();
+  }
+
+  static Future<void> uploadImageToFirestore(String downloadUrl) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(locator<StartAppCubit>().state.myCurrentUser!.idUser)
+        .set({'photoUrl': downloadUrl}, SetOptions(merge: true));
   }
 }

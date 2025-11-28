@@ -1,9 +1,13 @@
 //import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_flutter_cifo/auth/data/repository/cloud_storage_repository.dart';
+import 'package:firebase_flutter_cifo/auth/data/repository/image_local_repository.dart';
 import 'package:firebase_flutter_cifo/auth/data/repository/user_firestore_repository.dart';
 import 'package:firebase_flutter_cifo/start/cubits/start_app/start_app_state.dart';
 import 'package:firebase_flutter_cifo/auth/data/models/auth_dto.dart';
 import 'package:firebase_flutter_cifo/auth/data/repository/auth_firebase_repository.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 class StartAppCubit extends Cubit<StartAppState> {
   StartAppCubit() : super(StartAppState());
@@ -102,15 +106,53 @@ class StartAppCubit extends Cubit<StartAppState> {
   }) async {
     final myCurrentUser = AuthDto(
       idUser: state.myCurrentUser!.idUser,
+      photoUrl: state.myCurrentUser!.photoUrl,
       isAnonymous: state.myCurrentUser!.isAnonymous,
       eamil: state.myCurrentUser!.eamil,
       name: (name == null) ? state.myCurrentUser!.name : name,
+      localPhotoPath: state.myCurrentUser!.localPhotoPath,
       secondName: (secondName == null)
           ? state.myCurrentUser!.secondName
           : secondName,
     );
     await UserFirestoreRepository.updateNewUser(data: myCurrentUser);
 
+    emit(state.copyWith(myCurrentUser: myCurrentUser));
+  }
+
+  Future<void> editPhotoUrl(BuildContext context, String? imagePath) async {
+    final downloadUrl = await CloudStorageRepository().uploadImage(
+      context,
+      imagePath,
+      state.myCurrentUser!.idUser,
+    );
+    final myCurrentUser = AuthDto(
+      idUser: state.myCurrentUser!.idUser,
+      photoUrl: (downloadUrl == null)
+          ? state.myCurrentUser!.photoUrl
+          : downloadUrl,
+      isAnonymous: state.myCurrentUser!.isAnonymous,
+      eamil: state.myCurrentUser!.eamil,
+      name: state.myCurrentUser!.name,
+      secondName: state.myCurrentUser!.secondName,
+      localPhotoPath: state.myCurrentUser!.localPhotoPath,
+    );
+    emit(state.copyWith(myCurrentUser: myCurrentUser));
+  }
+
+  Future<void> pickLocalImage(ImageSource source) async {
+    final path = await ImageLocalRepository().pickImage(source);
+    final myCurrentUser = AuthDto(
+      idUser: state.myCurrentUser!.idUser,
+      photoUrl: state.myCurrentUser!.photoUrl,
+      isAnonymous: state.myCurrentUser!.isAnonymous,
+      eamil: state.myCurrentUser!.eamil,
+      name: state.myCurrentUser!.name,
+      secondName: state.myCurrentUser!.secondName,
+      localPhotoPath: (path == null)
+          ? state.myCurrentUser!.localPhotoPath
+          : path,
+    );
     emit(state.copyWith(myCurrentUser: myCurrentUser));
   }
 }

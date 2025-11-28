@@ -10,14 +10,17 @@ class AuthDto {
   final String? name;
   final String? secondName;
   final bool? isAnonymous;
+  final String? photoUrl;
+  final String? localPhotoPath;
 
   AuthDto({
     required this.idUser,
-
     required this.isAnonymous,
     required this.eamil,
     required this.secondName,
     required this.name,
+    required this.photoUrl,
+    required this.localPhotoPath,
   });
 
   /// Connect the generated [_$PersonFromJson] function to the `fromJson`
@@ -38,6 +41,8 @@ class AuthDto {
       eamil: firebaseUser.user?.email ?? '',
       name: firebaseUser.user?.displayName ?? '',
       secondName: null,
+      photoUrl: null,
+      localPhotoPath: null,
     );
   }
 }

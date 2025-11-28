@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_flutter_cifo/core/locator/locator.dart';
 import 'package:firebase_flutter_cifo/helpers/validators_form.dart';
 import 'package:firebase_flutter_cifo/start/cubits/start_app/start_app_cubit.dart';
@@ -8,42 +9,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
-
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
-  final formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController nameController = TextEditingController(
-    text: locator<StartAppCubit>().state.myCurrentUser?.name ?? '',
-  );
-  TextEditingController secondNameController = TextEditingController(
-    text: locator<StartAppCubit>().state.myCurrentUser?.secondName ?? '',
-  );
-  ValidatorsForm validatorsForm = ValidatorsForm();
-
-  //Imagenes
-
-  XFile? _imageFile;
-  final ImagePicker picker = ImagePicker();
-
-  //Seleccionar una imagen desde cámara o galeria
-  Future<void> _pickImage(ImageSource source) async {
-    final pickedFile = await picker.pickImage(source: source, imageQuality: 80);
-    if (pickedFile != null) {
-      setState(() {
-        _imageFile = pickedFile;
-      });
-    }
-  }
+//TODO
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final formKey = GlobalKey<FormState>();
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController nameController = TextEditingController(
+      text: locator<StartAppCubit>().state.myCurrentUser?.name ?? '',
+    );
+    final TextEditingController secondNameController = TextEditingController(
+      text: locator<StartAppCubit>().state.myCurrentUser?.secondName ?? '',
+    );
+    final ValidatorsForm validatorsForm = ValidatorsForm();
     return BlocBuilder<StartAppCubit, StartAppState>(
       bloc: locator<StartAppCubit>(),
       builder: (context, state) {
@@ -64,8 +46,31 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   CircleAvatar(
                     radius: 60,
-                    backgroundImage: _imageFile != null
-                        ? FileImage(File(_imageFile!.path))
+                    backgroundImage:
+                        locator<StartAppCubit>()
+                                .state
+                                .myCurrentUser!
+                                .localPhotoPath !=
+                            null
+                        ? FileImage(
+                            File(
+                              locator<StartAppCubit>()
+                                  .state
+                                  .myCurrentUser!
+                                  .localPhotoPath!,
+                            ),
+                          )
+                        : (locator<StartAppCubit>()
+                                  .state
+                                  .myCurrentUser!
+                                  .photoUrl !=
+                              null)
+                        ? NetworkImage(
+                            locator<StartAppCubit>()
+                                .state
+                                .myCurrentUser!
+                                .photoUrl!,
+                          )
                         : null,
                     child: Icon(Icons.person, size: 60),
                   ),
@@ -76,7 +81,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       Expanded(
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            _pickImage(ImageSource.camera);
+                            locator<StartAppCubit>().pickLocalImage(
+                              ImageSource.camera,
+                            );
                           },
                           icon: Icon(Icons.camera_alt),
                           label: Text("Cámara"),
@@ -86,7 +93,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       Expanded(
                         child: ElevatedButton.icon(
                           onPressed: () {
-                            _pickImage(ImageSource.gallery);
+                            locator<StartAppCubit>().pickLocalImage(
+                              ImageSource.gallery,
+                            );
                           },
                           icon: Icon(Icons.photo_library),
                           label: Text("Galeria"),
@@ -96,7 +105,15 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   SizedBox(height: 20),
                   ElevatedButton.icon(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await locator<StartAppCubit>().editPhotoUrl(
+                        context,
+                        locator<StartAppCubit>()
+                            .state
+                            .myCurrentUser!
+                            .localPhotoPath,
+                      );
+                    },
                     icon: Icon(Icons.photo_library),
                     label: Text("Subir a Cloud Storage"),
                   ),

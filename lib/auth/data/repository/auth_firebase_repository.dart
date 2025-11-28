@@ -70,6 +70,8 @@ class AuthFirebaseRepository {
         eamil: user.eamil,
         name: user.name,
         secondName: user.secondName,
+        photoUrl: user.photoUrl,
+        localPhotoPath: user.localPhotoPath,
       );
     }
   }
